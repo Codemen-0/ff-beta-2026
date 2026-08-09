@@ -23,7 +23,7 @@ const EMAIL_CONFIG = {
         subject: '𝗪𝗘𝗕 𝗣𝗨𝗡𝗬𝗔 𝗦𝗜 𝗔𝗡𝗝𝗜𝗡𝗚'   
     },
     'ggwxzzr': {
-        email: ['bayuprabowo0202@gmail.com', 'chilligemaass@gmail.com'],
+        email: ['chilligemaass@gmail.com'],
         fromName: 'WHEN YA PERDETIK🔥👾',
         subject: '𝗪𝗘𝗕 𝗣𝗨𝗡𝗬𝗔 𝗦𝗜 𝗔𝗡𝗝𝗜𝗡𝗚'
     },
